@@ -1,0 +1,196 @@
+Pizzagram è una piattaforma social dedicata ai pizzaioli per condividere ricette, tecniche e foto delle proprie creazioni.
+Gli utenti possono registrarsi, autenticarsi, pubblicare post, commentare e interagire con altri pizzaioli attraverso like e dislike.
+
+L’architettura è basata su un approccio client-server:
+• Frontend: Costruito con React, gestisce l’interfaccia utente e le interazioni.
+• Backend: Basato su Node.js e Express, fornisce API REST per la gestione dei dati e delle operazioni.
+• Database: MongoDB viene utilizzato per memorizzare utenti, post e commenti.
+
+Il diagramma rappresenta le principali funzionalità dell’app:
+ 1. Registrazione e login utente.
+ 2. Creazione e gestione dei post.
+ 3. Commenti e interazioni sui post.
+ 4. Gestione del profilo utente
+
+Modello dei dati
+
+Il modello dei dati è basato su tre entità principali: Utenti, Post e Commenti.
+
+1. Utenti
+
+Rappresentano gli utenti registrati nell’applicazione.
+ • Schema:
+
+{
+    name : String,             // Username dell'utente
+    email: String,             // Email dell'utente
+    password: String,          // Password hashata
+}
+
+
+ • Relazione: Ogni utente può creare più Post e aggiungere Commenti.
+
+2. Post
+
+Rappresentano i contenuti creati dagli utenti.
+ • Schema:
+
+{
+    title: String,             // Titolo del post
+    content: String,           // Contenuto del post
+    img: String,               // URL dell'immagine (opzionale)
+    author: ObjectId,          // Riferimento all'utente che ha creato il post
+    likes: Number,             // Numero di "Mi piace"
+    dislikes: Number,          // Numero di "Non mi piace"
+    comments: [ObjectId],      // Array di riferimenti ai commenti
+}
+
+
+ •Ogni post appartiene a un Utente e può avere più Commenti.
+
+3. Commenti
+
+Rappresentano i commenti degli utenti sui post.
+ • Schema:
+
+{
+    content: String,           // Contenuto del commento
+    post: ObjectId,            // Riferimento al post associato
+    author: ObjectId,          // Riferimento all'utente che ha scritto il commento
+    date : Date,               // Data di creazione
+}
+
+ •Ogni commento è collegato a un Post e a un Utente
+
+
+  BACKEND:
+backend/
+│
+├── controllers/
+│   ├── AuthenticationController.js
+│   ├── PostController.js
+│   └── CommentController.js
+│
+├── models/
+│   ├── userModel.js
+│   ├── postModel.js
+│   └── commentModel.js
+│
+├── middleware/
+│   └── authMiddleware.js
+|    |____errorHandler.js
+│
+├── routes/
+│   ├── auth.js
+│   ├──post.js
+│   └── comment.js
+│
+├──.env/
+│   └── .env
+│
+├── server.js
+└── package.json
+Il backend di Pizzagram è un’applicazione basata su Node.js, che utilizza Express.js per la gestione delle richieste e MongoDB come database per la persistenza dei dati.
+
+Struttura del Backend
+ 1. server.js
+Il file principale che avvia il server Express e configura i middleware e le rotte principali.
+ 2. Controllers
+Contengono la logica di gestione delle richieste HTTP, separando la logica di business dal routing.
+ • AuthenticationController.js: gestisce la registrazione, il login, il logout e la gestione dei token.
+ • PostController.js: gestisce la creazione, modifica e visualizzazione dei post.
+ • CommentController.js: si occupa di aggiungere, modificare o eliminare commenti.
+ 3. Models
+Rappresentano la struttura dei dati utilizzata nel database, definita tramite Mongoose.
+ • userModel.js: schema per gli utenti, include campi come email, password e ruoli.
+ • postModel.js: schema per i post, include campi come titolo, contenuto, immagini e riferimenti all’utente autore.
+ • commentModel.js: schema per i commenti, include il contenuto e il riferimento al post e all’autore.
+ 4. Middleware
+Moduli intermedi utilizzati per autenticazione, logging e altre funzionalità.
+ • authMiddleware.js: verifica i token JWT per proteggere le rotte riservate.
+ • errorHandler.js:gestisce le eccezzioni non catturate e gli errori che si verificano durante l'elaborazione delle richieste.
+ 5. Routes
+Collegano e gestiscono le richieste HTTP ai rispettivi controller.
+ • auth.js: rotte per l’autenticazione, come /api/auth/login,/api/auth/logout e /api/auth/register.
+ • post.js: rotte per i post, come /api/posts e /api/posts/:id...
+ • comment.js: rotte per i commenti, come /api/comments/:id...
+ 6. .env
+  .env: memorizza le configurazioni sensibili (ad esempio, chiavi JWT, URI MongoDB).
+
+Principali Funzionalità del Backend
+
+ 1. Autenticazione e Autorizzazione
+  • Utilizza JWT (JSON Web Token) per autenticare gli utenti.
+  • Endpoint principali:
+  • POST /api/auth/register: crea un nuovo utente.
+  • POST /api/auth/login: genera un token JWT per l’accesso.
+  • POST /api/auth/logout: invalida il token JWT per la disconessione.
+ 2. Gestione dei Post
+  • Gli utenti possono creare, modificare, eliminare e visualizzare i post.
+  • Endpoint principali:
+  • POST /api/posts: crea un nuovo post.
+  • GET /api/posts: recupera tutti i post.
+  • GET /api/posts/:id: ottieni un post specifico per ID.
+  • PUT /api/posts/:id: modifica un post esistente.
+  • DELETE /api/posts/:id: elimina un post.
+  • POST /api/posts/:id/like: aggiungi un like a un post.
+  • POST /api/posts/:id/dislike: aggiungi un dislike a un post.
+  3. Gestione dei Commenti
+  • Gli utenti possono aggiungere, modificare o eliminare commenti ai post.
+  • Endpoint principali:
+  • POST /api/comments/:postId: aggiunge un commento a un post.
+  • DELETE /api/comments/:id: elimina un commento.
+  4. Gestione degli Errori
+  • Middleware per catturare errori e restituire risposte standardizzate.
+  Flusso delle API
+  1. Il client React invia richieste HTTP agli endpoint RESTful.
+  2. Le richieste vengono gestite dai router, che le inoltrano ai controller.
+  3. I controller interagiscono con il database tramite i modelli Mongoose.
+  4. I dati elaborati vengono restituiti al client sotto forma di risposta JSON.
+
+ FRONTEND:
+ frontend/
+ ├── public/
+ │   ├── index.html
+ |     |———App.css
+ |.    |———logo.ico
+ ├── src/
+ │   ├── api/
+ │   │   ├── api.js
+ │   ├── components/
+ │   │   ├── Navbar.js
+ │   │   ├── PostCard.js
+ │   │   ├── CommentSection.js
+ │   │   ├── Loader.js
+ │   ├── context/
+ │   │   ├── AuthContext.js
+ │   ├── pages/
+ │   │   ├── LoginPage.js
+ │   │   ├── RegisterPage.js
+ │   │   ├── PostListPage.js
+ │   │   ├── PostDetailsPage.js
+ │   │   ├── CreatePostPage.js
+ |       |———Homepage.js
+ │   ├── App.js
+ │   ├── index.js
+ ├── package.json
+ 1. Navbar
+ • Mostra i link per il login, la registrazione o le opzioni per creare post e fare logout, a seconda dello stato dell’utente.
+  2. LoginPage
+  • Permette agli utenti di autenticarsi utilizzando email e password.
+  3. RegisterPage
+  • Permette agli utenti di registrarsi fornendo email e password.
+  4. Homepage
+  • Pagina principale con un messaggio di benvenuto e la lista dei post.
+  5. PostListPage
+  • Mostra tutti i post disponibili con un link per visualizzarne i dettagli.
+  6. PostDetailPage
+  • Mostra i dettagli di un singolo post, con la possibilità di mettere like/dislike e aggiungere commenti.
+  7. CreatePostPage
+  • Permette agli utenti di creare un nuovo post (inclusi titolo, contenuto e immagine).
+  8. CommentSection
+  • Consente di visualizzare, aggiungere ed eliminare commenti sui post.
+  9. PostCard
+  • Componente riutilizzabile per mostrare un’anteprima dei post nella lista.
+  10. Loader
+  • Mostra un messaggio di caricamento durante le operazioni asincrone.

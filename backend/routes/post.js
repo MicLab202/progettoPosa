@@ -1,4 +1,4 @@
-const express = require('epress');
+const express = require('express');
 const{createPost, getPost, getPostById, 
     updatePost, deletePost, likePost, dislikePost} = require('../controllers/PostController')
 
