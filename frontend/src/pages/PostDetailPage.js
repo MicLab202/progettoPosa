@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import axios from 'axios';
+import API from "../api/api";
 import { useParams } from 'react-router-dom';
 import CommentSection from "../components/CommentSection";
 
@@ -8,16 +8,21 @@ const PostDetailPage = () => {
     const [post, setPost]= useState({});
 
     useEffect(() => {
-        axios.gey(`/api/posts/${id}`).then((response) => setPost(response.data))
+        try{
+            API.get(`/post/${id}`).then((response) => setPost(response.data))
+        }
+        catch (error) {
+            console.log(error.message)
+        }
     }, [id]);
 
     const handleLike = async () => {
-        await axios.patch(`/api/posts/${id}/like`).then((response) => {
+        await API.patch(`/post/${id}/like`).then((response) => {
             setPost(response.data)
         })
     }
     const handleDisike = async () => {
-        await axios.patch(`/api/posts/${id}/dislike`).then((response) => {
+        await API.patch(`/post/${id}/dislike`).then((response) => {
             setPost(response.data)
         })
     }
@@ -30,7 +35,6 @@ const PostDetailPage = () => {
             <p>Dislikes:{post.dislikes}</p>
             <button onClick={handleLike}>Like</button>
             <button onClick={handleDisike}>Dislike</button>
-            <CommentSection postId={id} />
         </div>
     )
 }

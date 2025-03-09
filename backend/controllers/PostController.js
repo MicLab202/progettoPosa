@@ -1,5 +1,6 @@
 const Post = require('../models/PostModel');
 const User = require('../models/userModel');
+const mongoose = require('mongoose');
 
 
 // creazione del post passando titolo e immagine in input
@@ -32,18 +33,24 @@ const getPost = async (req,res) => {
 
 
 const getPostById = async (req, res) => {
-    const {id} = req.params;
+    const { id } = req.params;
     try {
-        const post = await Post.findById(id).populate('author', 'name')
-        if(!post){
-            return res.status(400).json({ msg : 'post not found'})
-        } 
-        res.status(200).json(post)
-    } catch (e) {
-        res.status(500).json({msg:'error', error: e})
+        // Esegui il cast dell'ID in ObjectId
+        if (!mongoose.Types.ObjectId.isValid(id)) {
+            return res.status(400).json({ msg: 'Invalid ID format' });
+        }
 
+        const post = await Post.findById(id).populate('author', 'name');
+        
+        if (!post) {
+            return res.status(400).json({ msg: 'Post not found' });
+        }
+
+        res.status(200).json(post);
+    } catch (e) {
+        res.status(500).json({ msg: 'Error', error: e.message });
     }
-}
+};
 
 
 

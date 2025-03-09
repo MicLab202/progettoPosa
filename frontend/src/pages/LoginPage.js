@@ -1,15 +1,23 @@
 import React, { useState, useContext } from 'react';
-import {useAuth} from "../context/AuthContext";
+import API from "../api/api"; // Assicurati che l'API sia importata correttamente
 
 const LoginPage = () => {
-    const {login} = useContext(useAuth)
     const [email, setEmail ] = useState("");
     const [password, setPassword ] = useState("");
 
     const handleSubmit = async (e) => {
         e.preventDefault();
-        await login(email,password)
+        await login({email,password})
     }
+
+    const login = async ({ email, password }) => {
+        try {
+            const response = await API.post("/auth/login", { email, password });
+            console.log("Login avvenuta con successo", response);
+        } catch (error) {
+            console.error("Errore durante il Login:", error);
+        }
+    };
 
     return(
         <div>

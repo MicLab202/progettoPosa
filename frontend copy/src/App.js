@@ -10,10 +10,17 @@ import CreatePostPage from "./pages/CreatePostPage";
 import Homepage from "./pages/Homepage";
 
 const App = () => (
-    <Router>
-        <Routes>
-            <Route path="/" element={<Homepage />} />
-        </Routes>
-    </Router>
+    <AuthProvider>
+        <Router>
+            <Navbar />
+            <Routes>
+                <Route path="/login" element={<LoginPage />} />
+                <Route path="/register" element={<RegisterPage />} />
+                <Route path="/posts/:id" element={<PostDetailPage />} />
+                <Route path="/posts/new" element={<CreatePostPage />} />
+                <Route path="/" element={<Homepage />} />
+            </Routes>
+        </Router>
+    </AuthProvider>
 );
 export default App;

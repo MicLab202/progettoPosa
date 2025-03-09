@@ -1,7 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import API from "../api/api";
 import PostCard from "../components/PostCard"
-import { Link } from 'react-router-dom';
 
 
 const PostListPage = () => {
@@ -16,12 +15,12 @@ const PostListPage = () => {
                 if(data.length === 0){
                     const hardcodedPost = [
                         {
-                            _id: '1',
+                            _id: '507f191e810c19729de860ea',
                             title: 'Primo Post Hardcoded',
                             content: 'Questo è il contenuto del primo post, hardcoded per il testing.'
                         },                        
                         {
-                            _id: '2',
+                            _id: '507f191e810c19729de860eb',
                             title: 'Secondo Post Hardcoded',
                             content: 'Questo è il contenuto del secondo post, hardcoded per il testing.'
                         }
@@ -45,7 +44,6 @@ const PostListPage = () => {
     return(
         <div>
             {posts.map(post =>(
-
                 <PostCard key={post.id} post={post} />
                     ))}
 

@@ -1,22 +1,22 @@
 import React, {useState, useEffect} from "react";
-import axios from 'axios';
+import API from "../api/api";
 
 const  CommentSection = ({postId}) => {
     const [comments, setComments] = useState([]);
     const [newComment, setNewComment] = useState('');
 
     useEffect(() => {
-        axios.get(`api/comments/${postId}`).then((response) => setComments(response.data))
+        API.get(`/comment/${postId}`).then((response) => setComments(response.data))
     }, [postId])
 
     const handleAddComment =  () => {
-       axios.post('api/comments/${postId}', { content: newComment}).then((response) => {
+       API.post(`/comment/${postId}`, { content: newComment}).then((response) => {
            setComments((prev) => [...prev, response.data])
            setNewComment('');
        })
     }
     const handleDeleteComment =  (commentId) => {
-        axios.delete('/api/comments/${postId}/${commentId}').then(() => {
+        API.delete(`/comment/${postId}/${commentId}`).then(() => {
             setComments((prev) => prev.filter((comment) => comment._id !== commentId))
             setNewComment('');
         })

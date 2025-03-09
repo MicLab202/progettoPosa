@@ -23,22 +23,26 @@ const login = async (req, res) => {
     const {email, password } = req.body
 
     try{
-
-        const user = await User.findOne({ email })  // va a cercare l'utente nel database e se non lo trova restituisce un messaggio di errore
+        console.log(1)
+        const user = await User.findOne({ email })
+        console.log(2)
+          // va a cercare l'utente nel database e se non lo trova restituisce un messaggio di errore
         if(!user){  
             return res.status(400).json({msg:'email o password errati'})
         }
 
         const isMatch = await bcrypt.compare(password, user.password)  // confronta la password fornita con quella che si trova nel database
+        console.log(isMatch)
+        
         if(!isMatch) {
             return res.status(400).json({msg: 'email o password errati'})
         }
-            const token = jwt.sign({id: user._id}, process.env.JWT_SECRET, {expiresIn : '1h'}) // Se la password è corretta, genera un JWT token valido per 1 ora
-            res.status(200).json({
-                msg : 'Login effettuato con successo',
-                user: {id:user._id, name:user.name, email:user.email },
-                token,
-            })
+        const token = jwt.sign({id: user._id}, 'key', {expiresIn : '1h'}) // Se la password è corretta, genera un JWT token valido per 1 ora
+        res.status(200).json({
+            msg : 'Login effettuato con successo',
+            user: {id:user._id, name:user.name, email:user.email },
+            token,
+        })
     } catch (e){
         res.status(500).json({msg :'error',error:e })
     }

@@ -27,7 +27,7 @@ const Navbar = () => {
           </>
         ) : (
           <>
-            <button onClick={handleLogin} className="navbar-button" style={styles.button}>Login</button>
+            <Link to="/login" className='navbar-link' style={styles.link}>Accedi</Link>
             <Link to="/register" className="navbar-link" style={styles.link}>Registrati</Link>
           </>
         )}
