@@ -1,25 +1,69 @@
-import React, {useContext} from "react";
-import {Link } from "react-router-dom";
-import {AuthContext} from "../context/AuthContext";
+// src/components/Navbar.js
+import React, { useState } from 'react';
+import { Link } from 'react-router-dom';
 
 const Navbar = () => {
-    const {user,logout} = useContext(AuthContext)
+  // Stato per simulare se l'utente è loggato
+  const [user, setUser] = useState(false);
 
-    return(
-        <nav>
-            <Link to="/">Home</Link>
-            {user ? (
-                <>
-                <Link to="/posts/new">Crea Post</Link>
-                <button onClick={logout}>Logout</button>
-                </>
-            ) : (
-                <>
-                <Link to="/login">Login</Link>
-                    <Link to="/register">Registrati</Link>
-                </>
-            )}
-        </nav>
-    )
-}
+  const handleLogin = () => {
+    // Logica di login (per esempio, aggiorna lo stato)
+    setUser(true);
+  };
+
+  const handleLogout = () => {
+    // Logica di logout (per esempio, aggiorna lo stato)
+    setUser(false);
+  };
+
+  return (
+    <nav style={styles.navbar}>
+      <div className="navbar-links" style={styles.linkContainer}>
+        <Link to="/" className="navbar-link" style={styles.link}>Home</Link>
+        {user ? (
+          <>
+            <Link to="/posts/new" className="navbar-link" style={styles.link}>Crea Post</Link>
+            <button onClick={handleLogout} className="navbar-button" style={styles.button}>Logout</button>
+          </>
+        ) : (
+          <>
+            <button onClick={handleLogin} className="navbar-button" style={styles.button}>Login</button>
+            <Link to="/register" className="navbar-link" style={styles.link}>Registrati</Link>
+          </>
+        )}
+      </div>
+    </nav>
+  );
+};
+
+const styles = {
+  navbar: {
+    backgroundColor: '#333',
+    padding: '10px',
+    position: 'fixed',
+    top: '0',
+    left: '0',
+    width: '100%',
+    zIndex: '1000',
+  },
+  linkContainer: {
+    display: 'flex',
+    alignItems: 'center',
+    justifyContent: 'space-around',
+  },
+  link: {
+    color: 'white',
+    textDecoration: 'none',
+    marginRight: '20px',
+  },
+  button: {
+    color: 'white',
+    backgroundColor: '#444',
+    border: 'none',
+    padding: '8px 16px',
+    cursor: 'pointer',
+    marginLeft: '10px',
+  }
+};
+
 export default Navbar;

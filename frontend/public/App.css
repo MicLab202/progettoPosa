@@ -5,25 +5,60 @@ body {
     background-color: #f9f9f9;
 }
 
-nav {
+/* src/components/Navbar.css */
+.navbar {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
     background-color: #333;
-    color: white;
-    padding: 1em;
+    padding: 10px 20px;
+    z-index: 1000;  /* Garantiamo che la navbar sia sempre sopra gli altri contenuti */
     display: flex;
     justify-content: space-between;
     align-items: center;
-}
-
-nav a, nav button {
+  }
+  
+  .navbar-links {
+    display: flex;
+    align-items: center;
+  }
+  
+  .navbar-link, .navbar-button {
     color: white;
     text-decoration: none;
-    margin-right: 1em;
-    font-size: 1em;
-}
-
-nav a:hover, nav button:hover {
-    text-decoration: underline;
-}
+    margin-right: 15px;
+    font-size: 16px;
+    padding: 8px 12px;
+    border: none;
+    background: none;
+    cursor: pointer;
+  }
+  
+  .navbar-button:hover, .navbar-link:hover {
+    background-color: #555;
+    border-radius: 5px;
+  }
+  
+  .navbar-link {
+    font-weight: bold;
+  }
+  
+  .navbar-button {
+    background-color: #007BFF;
+    color: white;
+    border-radius: 5px;
+  }
+  
+  .navbar-button:hover {
+    background-color: #0056b3;
+  }
+  
+  /* Aggiungiamo un po' di margine superiore ai contenuti della pagina per non nascondere il contenuto dietro la navbar */
+  body {
+    margin-top: 60px; /* Altezza della navbar */
+  }
+  
 
 h1, h2 {
     color: #333;
@@ -57,13 +92,28 @@ form button:hover {
 }
 
 .post-card {
-    margin: 1em;
-    padding: 1em;
-    background: white;
-    border-radius: 5px;
-    box-shadow: 0 0 5px rgba(0, 0, 0, 0.1);
+  margin: 1em;
+  padding: 1em;
+  background: white;
+  border-radius: 5px;
+  box-shadow: 0 0 5px rgba(0, 0, 0, 0.1);
 }
 
+.post-card h2 {
+  font-size: 1.5em;
+  margin-bottom: 0.5em;
+}
+
+.post-card p {
+  font-size: 1em;
+  color: #555;
+}
+
+.post-card a {
+  text-decoration: none;
+  color: #007bff;
+  font-weight: bold;
+}
 
 button {
     margin: 5px;
