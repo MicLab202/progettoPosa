@@ -35,7 +35,7 @@ const corsOptions = {
 
 // Middleware
 app.use(cors(corsOptions));  // Applica CORS prima di tutte le route
-app.use(express.json());     // Middleware per il parsing del corpo della richiesta (JSON)
+app.use(express.json({limit: "10mb"}));     // Middleware per il parsing del corpo della richiesta (JSON)
 app.use(cookieParser());     // Middleware per i cookie
 app.use(express.urlencoded({ extended: true })); // Middleware per il parsing dei form URL-encoded
 

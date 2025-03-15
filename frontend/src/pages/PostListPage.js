@@ -12,28 +12,9 @@ const PostListPage = () => {
             try {
                 const {data} = await API.get('/post');
                 
-                if(data.length === 0){
-                    const hardcodedPost = [
-                        {
-                            _id: '507f191e810c19729de860ea',
-                            title: 'Primo Post Hardcoded',
-                            content: 'Questo è il contenuto del primo post, hardcoded per il testing.'
-                        },                        
-                        {
-                            _id: '507f191e810c19729de860eb',
-                            title: 'Secondo Post Hardcoded',
-                            content: 'Questo è il contenuto del secondo post, hardcoded per il testing.'
-                        }
-                    ];
-                    setPosts(hardcodedPost);
-                }
-                else {
-                    setPosts(data);
-
-                }
-
+                setPosts(data)
             } catch (e) {
-                console.error('errore', e.message)
+                console.error('Errore nel recupero dei post', e.message)
             } finally {
                 setLoading(false)
             }

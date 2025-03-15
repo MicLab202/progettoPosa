@@ -1,14 +1,15 @@
-implementare una sessione;
-autologin dopo registrazione;
-reindirizzamento alla home dopo login con successo;
-inserire banda di errore quando login fallisce
-inserire banda di errore su registrazione utente già esistente
+banner verde se ho creato un post con successo
+banner rosso se c'è problema nella creazione
+banner rosso per gli errori in fase di costruzione di un nuovo post
+banner verde se un post viene creato con successo
+aggiustare css della postcard in homepage
+inserire banner se ho già messo like/dislike
+impendire il like a chi non è loggato
 
+
+inserire supporto per mongodb in cloud
 
 aree non toccate:
-creazione post
-like
 commento
 eliminazione post
-
 gestione commenti

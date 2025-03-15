@@ -20,19 +20,17 @@ const registerUser = async (req,res) => {
 }
 
 const login = async (req, res) => {
+    console.log("Dati ricevuti dal client:", req.body);
     const {email, password } = req.body
 
     try{
-        console.log(1)
         const user = await User.findOne({ email })
-        console.log(2)
           // va a cercare l'utente nel database e se non lo trova restituisce un messaggio di errore
         if(!user){  
             return res.status(400).json({msg:'email o password errati'})
         }
 
         const isMatch = await bcrypt.compare(password, user.password)  // confronta la password fornita con quella che si trova nel database
-        console.log(isMatch)
         
         if(!isMatch) {
             return res.status(400).json({msg: 'email o password errati'})
@@ -53,4 +51,12 @@ const logout = (req, res ) => {
     res.status(200).json({msg:'logout effettuato con successo', clearToken:true})
 }
 
-module.exports = {registerUser,logout,login};
+const getUser = async (req, res) => {
+    try {
+        res.status(200).json(req.user);
+    } catch (error) {
+        res.status(500).json({msg: "Errore nel recupero dell'utente", error})
+    }
+};
+
+module.exports = {registerUser,logout,login,getUser};

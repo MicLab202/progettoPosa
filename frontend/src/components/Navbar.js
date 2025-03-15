@@ -1,20 +1,11 @@
 // src/components/Navbar.js
-import React, { useState } from 'react';
+import React, { useContext } from 'react';
 import { Link } from 'react-router-dom';
+import { AuthContext } from '../context/AuthContext';  // Importa il tuo AuthContext
 
 const Navbar = () => {
-  // Stato per simulare se l'utente è loggato
-  const [user, setUser] = useState(false);
+  const { user, logout } = useContext(AuthContext);
 
-  const handleLogin = () => {
-    // Logica di login (per esempio, aggiorna lo stato)
-    setUser(true);
-  };
-
-  const handleLogout = () => {
-    // Logica di logout (per esempio, aggiorna lo stato)
-    setUser(false);
-  };
 
   return (
     <nav style={styles.navbar}>
@@ -23,11 +14,11 @@ const Navbar = () => {
         {user ? (
           <>
             <Link to="/posts/new" className="navbar-link" style={styles.link}>Crea Post</Link>
-            <button onClick={handleLogout} className="navbar-button" style={styles.button}>Logout</button>
+            <button onClick={logout} className="navbar-button" style={styles.button}>Logout</button>
           </>
         ) : (
           <>
-            <Link to="/login" className='navbar-link' style={styles.link}>Accedi</Link>
+            <Link to="/login" className="navbar-link" style={styles.link}>Accedi</Link>
             <Link to="/register" className="navbar-link" style={styles.link}>Registrati</Link>
           </>
         )}

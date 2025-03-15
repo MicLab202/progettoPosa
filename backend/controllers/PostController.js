@@ -96,12 +96,23 @@ const deletePost = async (req,res) => {
 // tecnicamente, facendo così un utente puo mettere tanti like, bisogna trovare un modo per evitarlo
 const likePost = async (req,res) => {
     const {id} = req.params
+    const userId = req.user.id
     try{
         const post = await Post.findById(id)
         if(!post){
             return res.status(400).json({msg:'post not found'})
         }
-        post.likes += 1
+        if (post.likedBy.includes(userId)) {
+            return res.status(400).json({msg: 'Hai già messo Like a questo post'})
+        }
+
+        if (post.dislikedBy.includes(userId)){
+            post.dislikes -=1;
+            post.dislikedBy = post.dislikedBy.filter(user => user.toString() !== userId);
+        }
+
+        post.likes += 1;
+        post.likedBy.push(userId);
         await post.save()
         res.status(200).json(post)
     } catch (e) {
@@ -113,12 +124,23 @@ const likePost = async (req,res) => {
 // stesso problema dei like
 const dislikePost = async (req,res) => {
     const {id} = req.params
+    const userId = req.user.id
     try{
         const post = await Post.findById(id)
         if(!post){
             return res.status(400).json({msg:'post not found'})
         }
+        
+        if (post.dislikedBy.includes(userId)) {
+            return res.status(400).json({msg: 'Hai già messo Disike a questo post'})
+        }
+
+        if (post.likedBy.includes(userId)){
+            post.likes -=1 ;
+            post.likedBy = post.likedBy.filter(user => user.toString() !== userId);
+        }
         post.dislikes += 1
+        post.dislikedBy.push(userId);
         await post.save()
         res.status(200).json(post)
     } catch (e) {

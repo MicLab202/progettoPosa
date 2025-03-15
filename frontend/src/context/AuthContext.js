@@ -1,12 +1,43 @@
-import React, { createContext, useState, useContext } from 'react';
+import React, { createContext, useState, useEffect } from 'react';
+import API from "../api/api"; // Assicurati che l'API sia importata correttamente
 
-const AuthContext = createContext();
+
+
+export const AuthContext = createContext()
 
 export const AuthProvider = ({ children }) => {
   const [user, setUser] = useState(null);  // Stato dell'utente
 
-  const login = (userData) => setUser(userData);
-  const logout = () => setUser(null);
+  useEffect(() => {
+    const token = localStorage.getItem("token");
+    if (token) {
+      fetchUser();
+    }
+  }, []);
+
+  const login = async (email, password) => {
+    try {
+      const response = await API.post("/auth/login", { email, password });
+      localStorage.setItem("token", response.data.token);
+      setUser(response.data.user);
+    } catch (error) {
+      console.error('Errore di login:', error.response?.data || error.message);
+      throw error;
+    }
+  };
+
+  const fetchUser = async () => {
+    try {
+      const response = await API.get("/auth/me");
+      setUser(response.data);
+    } catch (error) {
+      logout(); // Se il token è scaduto o non valido
+    }
+  };
+  const logout = () => {
+    localStorage.removeItem("token");
+    setUser(null);
+  };
 
   return (
     <AuthContext.Provider value={{ user, login, logout }}>
@@ -15,4 +46,3 @@ export const AuthProvider = ({ children }) => {
   );
 };
 
-export const useAuth = () => useContext(AuthContext);
