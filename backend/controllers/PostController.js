@@ -77,16 +77,15 @@ const updatePost = async (req, res) => {
 
 const deletePost = async (req,res) => {
     const {id} = req.params
+    const user = req.user
     try{
-        const post = await Post.findById(id)
+        if(!user) {
+            res.status(400).json({ msg: 'User not Valid' });
+        }
+        const post = await Post.findByIdAndDelete(id)
         if (!post) {res.status(400).json({ msg: 'post not found' });
-
         }
-        if(post.author.toString() !== req.user.id) {
-            return res.status(400).json({msg:'post not found'})
-        }
-        await post.remove()
-        res.status(200).json({msg: 'post eliminato'})
+        res.status(200).json({msg: 'post deleted'})
     } catch (e) {
         res.status(500).json({msg:'error', error: e })
     }

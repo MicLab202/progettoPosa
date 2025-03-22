@@ -1,7 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import API from "../api/api";
 import PostCard from "../components/PostCard"
-import axios from 'axios';
 import { Link } from 'react-router-dom';
 
 
@@ -12,7 +11,7 @@ const PostListPage = () => {
     useEffect(() => {
         const fetchPosts = async () => {
             try {
-                const {data} = await axios.get('/api/posts');
+                const {data} = await API.get('/posts');
                 setPosts(data);
             } catch (e) {
                 console.error('errore', e.message)

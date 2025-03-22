@@ -22,6 +22,7 @@ const PostDetailPage = () => {
         })
     }
 
+
     return (
         <div>
             <h1>{post.title}</h1>

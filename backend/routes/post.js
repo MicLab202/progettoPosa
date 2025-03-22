@@ -10,7 +10,7 @@ router.get('/',getPost )
 router.get('/:id',getPostById )
 router.post('/', authMiddleware,  createPost)
 router.put('/:id',  updatePost)
-router.delete('/', deletePost)
+router.delete('/:id', authMiddleware, deletePost)
 router.patch('/:id/like', authMiddleware,  likePost)
 router.patch('/:id/dislike',authMiddleware, dislikePost)
 
