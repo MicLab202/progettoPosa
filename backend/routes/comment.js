@@ -1,8 +1,10 @@
 const express = require('express');
-const {addComment, deleteComment} = require('../controllers/CommentContoller');
+const {addComment, deleteComment, retrieveCommentByPostId} = require('../controllers/CommentContoller');
+const authMiddleware = require('../middleware/authMiddleware');
 const router = express.Router();
 
-router.post('/', addComment)
-router.delete('/delete', deleteComment)
+router.post('/:id', authMiddleware, addComment)
+router.delete('/:id',authMiddleware, deleteComment)
+router.get('/:id', retrieveCommentByPostId)
 
 module.exports = router;

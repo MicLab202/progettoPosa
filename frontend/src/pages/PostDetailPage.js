@@ -43,7 +43,7 @@ const PostDetailPage = () => {
             <p>Dislikes:{post.dislikes}</p>
             <button onClick={handleLike}>Like</button>
             <button onClick={handleDisike}>Dislike</button>
-            
+            <CommentSection postId={id} />
         </div>
     )
 }

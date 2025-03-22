@@ -1,11 +1,13 @@
 const Comment = require('../models/CommentModel');
 const Post = require('../models/PostModel');
+const mongoose = require('mongoose');
 
 // passa in input un post, sul quale poi posso inserire un commento
 
 const addComment = async (req,res) => {
     const {id} = req.params
     const {content} = req.body
+    const userId = req.user.id;
 
 
     // Controllo che l'utente sia autenticato
@@ -29,7 +31,7 @@ const addComment = async (req,res) => {
         // crea un nuovo commento associato al post e all'autore
         const comment = new Comment({
             content,
-            author: req.user.id,
+            author: userId,
             post: id               // è l'id del post dove si trova
         })
 
@@ -49,34 +51,46 @@ const addComment = async (req,res) => {
 // passo in input un commento, dal quale poi prendo il su commentid e l'id del post sul quale si trova(che si trova nel model del commento)
 
 const deleteComment = async (req,res) => {
-    const { id, commentId } = req.params
-
+    const {id} = req.params
     try{
-        const comment = await Comment.findById(commentId) 
+        const comment = await Comment.findByIdAndDelete(id) 
 
         if(!comment) 
             return res.status(400).json({msg:'commento non trovato'})
 
-        
-        if (comment.author.toString() !== req.user.id ) {        // se l'utente che sta provando a cancellare il commento non è lo stesso che l'ha scritto, invia un messaggio di errore
-            return res.status(400).json({msg:'error'})
-        }
+        const post = comment.post;
 
-       await comment.remove()  // rimozione commento
-
-        await Post.findByIdAndUpdate(id, {
-            $pull : {comments : commentId},
+        await Post.findByIdAndUpdate(post, {
+            $pull : {comments : id},
         })
 
         res.status(200).json({ msg :'commento eliminato'})
     } catch (e) {
-        res.status(500).json({msg:'error', error : e})
+        res.status(500).json({msg:'error', error : e.message})
+    }
+}
+
+const retrieveCommentByPostId = async(req,res) => {
+    const {id} = req.params;
+    try{
+        if(!mongoose.Types.ObjectId.isValid(id)) {
+            return res.status(400).json({ msg: 'Invalid ID format' });
+        }
+
+        const comments = await Comment.find({ post: id});
+
+        if(!comments) {
+            return res.status(400).json({ msg: 'Comments not found' });
+        }
+        res.status(200).json(comments);
+    } catch(e) {
+        res.status(500).json({ msg: "Error", error: e.message})
     }
 }
 
 
-
 module.exports = {
     addComment,
-    deleteComment
+    deleteComment,
+    retrieveCommentByPostId
 }

@@ -39,8 +39,12 @@ export const AuthProvider = ({ children }) => {
     setUser(null);
   };
 
+  const reloadUser = async () => {
+    await fetchUser();
+  };
+
   return (
-    <AuthContext.Provider value={{ user, login, logout }}>
+    <AuthContext.Provider value={{ user, login, logout, reloadUser}}>
       {children}
     </AuthContext.Provider>
   );

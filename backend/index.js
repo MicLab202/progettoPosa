@@ -14,8 +14,8 @@ const app = express();
 const connectDB = async () => {
     try {
         // Usa l'URL del database dal file .env
-        const dbURI = process.env.MONGO_URI || 'mongodb://localhost:27017/Pizzagram';
-        await mongoose.connect(dbURI, {
+       
+        await mongoose.connect('mongodb+srv://mikelelabar:ferrara@cluster0.94sr5.mongodb.net/Database_foto', {
             useNewUrlParser: true,
             useUnifiedTopology: true,
         });
@@ -29,13 +29,13 @@ const connectDB = async () => {
 
 // Configura CORS
 const corsOptions = {
-    origin: 'http://192.168.125.129:3000', // Cambia con il dominio del frontend
+    origin: 'http://192.168.224.128:3000', // Cambia con il dominio del frontend
     credentials: true,
 };
 
 // Middleware
 app.use(cors(corsOptions));  // Applica CORS prima di tutte le route
-app.use(express.json({limit: "10mb"}));     // Middleware per il parsing del corpo della richiesta (JSON)
+app.use(express.json({limit: "100mb"}));     // Middleware per il parsing del corpo della richiesta (JSON)
 app.use(cookieParser());     // Middleware per i cookie
 app.use(express.urlencoded({ extended: true })); // Middleware per il parsing dei form URL-encoded
 

@@ -4,12 +4,15 @@ banner rosso per gli errori in fase di costruzione di un nuovo post
 banner verde se un post viene creato con successo
 aggiustare css della postcard in homepage
 inserire banner se ho già messo like/dislike
-impendire il like a chi non è loggato
+aggiungere banner 'nessun post trovato'
 
+TOGLIERE LE PRINT DI DEBUG
+
+impendire il like a chi non è loggato
+permettere a chi ha creato il post di eliminare un commento
 
 inserire supporto per mongodb in cloud
 
 aree non toccate:
-commento
 eliminazione post
-gestione commenti
+
