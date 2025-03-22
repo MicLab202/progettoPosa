@@ -21,7 +21,6 @@ const RegisterPage = () => {
     const register = async ({ email, password, name }) => {
         try {
             const response = await API.post("/auth/registerUser", { name, email, password });
-            console.log("Registrazione avvenuta con successo", response);
     
             try {
                 await login(email, password);

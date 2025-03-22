@@ -20,7 +20,6 @@ const registerUser = async (req,res) => {
 }
 
 const login = async (req, res) => {
-    console.log("Dati ricevuti dal client:", req.body);
     const {email, password } = req.body
 
     try{

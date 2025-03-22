@@ -2,7 +2,7 @@ import React, { useState, useEffect, useContext } from "react";
 import API from "../api/api";
 import { AuthContext } from "../context/AuthContext";
 
-const CommentSection = ({ postId }) => {
+const CommentSection = ({ postId , postAuthorId}) => {
     const [comments, setComments] = useState([]);
     const [newComment, setNewComment] = useState('');
     const { user, loading, reloadUser } = useContext(AuthContext); // Ottieni l'utente dal contesto
@@ -60,7 +60,7 @@ const CommentSection = ({ postId }) => {
                     comments.map((comment) => (
                         <div key={comment._id}>
                             <p>{comment.content}</p>
-                            {user && user._id === comment.author && (
+                            {user && (user._id === comment.author || user._id === postAuthorId) && (
                                 <button onClick={() => handleDeleteComment(comment._id)}>Delete</button>
                             )}
                         </div>
