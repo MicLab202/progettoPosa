@@ -63,10 +63,10 @@ const PostDetailPage = () => {
                     Delete Post
                 </button>
             )}
-            <p>Likes: {post.likes}</p>
-            <p>Dislikes:{post.dislikes}</p>
-            <button onClick={handleLike}>Like</button>
-            <button onClick={handleDisike}>Dislike</button>
+            {user && (
+                <><p>Likes: {post.likes}</p><p>Dislikes:{post.dislikes}</p><button onClick={handleLike}>Like</button><button onClick={handleDisike}>Dislike</button></>
+            )}
+
             <CommentSection postId={id} />
         </div>
     )
