@@ -29,7 +29,7 @@ const connectDB = async () => {
 
 // Configura CORS
 const corsOptions = {
-    origin: 'http://192.168.224.128:3000', // Cambia con il dominio del frontend
+    origin: 'http://localhost:3000', // Cambia con il dominio del frontend
     credentials: true,
 };
 
