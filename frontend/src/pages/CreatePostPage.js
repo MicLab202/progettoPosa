@@ -1,10 +1,12 @@
 import React,{useState} from "react";
 import API from "../api/api";
+import { useNavigate } from 'react-router-dom';
 
 const CreatePostPage = () => {
     const [title, setTitle] = useState("");
     const [content, setContent] = useState("");
     const [image, setImage] = useState(null)
+    const navigate = useNavigate();
 
     const handleSubmit = async (e) => {
         e.preventDefault();
@@ -35,6 +37,7 @@ const CreatePostPage = () => {
                     setTitle("");
                     setContent("");
                     setImage(null);
+                    navigate('/')
                 } catch (error) {
                     console.error("Errore durante la creazione del post:", error);
                 }
