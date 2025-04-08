@@ -1,4 +1,4 @@
-import React, { createContext, useState, useEffect } from 'react';
+import React, { createContext, useState, useEffect, useCallback} from 'react';
 import API from "../api/api"; // Assicurati che l'API sia importata correttamente
 
 
@@ -26,22 +26,22 @@ export const AuthProvider = ({ children }) => {
     }
   };
 
-  const fetchUser = async () => {
+  const fetchUser = useCallback(async () => {
     try {
       const response = await API.get("/auth/me");
       setUser(response.data);
     } catch (error) {
-      logout(); // Se il token è scaduto o non valido
+      logout();
     }
-  };
+  }, []);
   const logout = () => {
     localStorage.removeItem("token");
     setUser(null);
   };
 
-  const reloadUser = async () => {
+  const reloadUser = useCallback(async () => {
     await fetchUser();
-  };
+  }, [fetchUser]);
 
   return (
     <AuthContext.Provider value={{ user, login, logout, reloadUser}}>

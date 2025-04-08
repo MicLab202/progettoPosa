@@ -102,7 +102,7 @@ const likePost = async (req,res) => {
             return res.status(400).json({msg:'post not found'})
         }
         if (post.likedBy.includes(userId)) {
-            return res.status(400).json({msg: 'Hai già messo Like a questo post'})
+            return removeLike(post, userId, res)
         }
 
         if (post.dislikedBy.includes(userId)){
@@ -120,6 +120,17 @@ const likePost = async (req,res) => {
 }
 
 
+const removeLike = async (post, userId, res) => {
+    try {
+    post.likes -=1 ;
+    post.likedBy = post.likedBy.filter(user => user.toString() !== userId);
+    } catch (e) {
+        return res.status(500).json({msg:"Error deleting Like", error: e})
+    }
+    return res.status(200).json(post)
+}
+
+
 // stesso problema dei like
 const dislikePost = async (req,res) => {
     const {id} = req.params
@@ -131,7 +142,7 @@ const dislikePost = async (req,res) => {
         }
         
         if (post.dislikedBy.includes(userId)) {
-            return res.status(400).json({msg: 'Hai già messo Disike a questo post'})
+            return removeDislike(post, userId, res);
         }
 
         if (post.likedBy.includes(userId)){
@@ -145,6 +156,16 @@ const dislikePost = async (req,res) => {
     } catch (e) {
         res.status(500).json({msg:'error', error: e})
     }
+}
+
+const removeDislike = async (post, userId, res) => {
+    try {
+        post.dislikes -=1;
+        post.dislikedBy = post.dislikedBy.filter(user => user.toString() !== userId);
+    } catch (e) {
+            return res.status(500).json({msg:"Error deleting Dislike", error: e});
+    }
+    return res.status(200).json(post);
 }
 
 

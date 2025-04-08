@@ -13,6 +13,7 @@ const PostDetailPage = () => {
     const navigate = useNavigate();
     
     useEffect(() => {
+        console.log("use effect")
         const fetchPosts = async () => {
             try {
                 const {data} = await API.get(`/post/${id}`);
