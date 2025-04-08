@@ -12,7 +12,7 @@ const PostListPage = () => {
             try {
                 const {data} = await API.get('/post');
                 
-                setPosts(data)
+                setPosts(data.reverse())
             } catch (e) {
                 console.error('Errore nel recupero dei post', e.message)
             } finally {
