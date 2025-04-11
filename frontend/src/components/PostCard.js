@@ -17,50 +17,51 @@ const PostCard = ({ post }) => {
 const styles = {
     card: {
         display: "flex",
-        flexDirection: "row",
-        backgroundColor: "#fff",
-        border: "1px solid #ccc",
+        flexDirection: "column",
+        alignItems: "center",
+        backgroundColor: "#000",
+        border: "1px solid #ddd",
         borderRadius: "12px",
         overflow: "hidden",
-        boxShadow: "0 4px 12px rgba(0,0,0,0.1)",
-        margin: "20px auto",
-        maxWidth: "800px",
-        width: "100%",
-        height: "250px",
+        boxShadow: "0 4px 10px rgba(0,0,0,0.1)",
+        margin: "20px",
+        maxWidth: "400px",
+        textAlign: "center",
+        paddingBottom: "20px",
+        transition: "transform 0.3s ease-in-out",
     },
     image: {
-        width: "50%",         // Prende metà della larghezza
-        height: "100%",
+        width: "100%",
+        height: "250px",
         objectFit: "cover",
+        border: "20px solid black", // Bordo più grande, anche sui lati sinistro e destro
+        margin: "0 20px", // Spazio a sinistra e destra
     },
     content: {
-        width: "50%",         // Anche questo prende metà
-        padding: "20px",
-        backgroundColor: "#fff",
-        color: "#000",
-        display: "flex",
-        flexDirection: "column",
-        justifyContent: "space-between",
-        textAlign: "left",
+        padding: "10px",
+        backgroundColor: "#000",
+        color: "#fff",
+        width: "90%",
+        marginRight: "15px", // Spazio tra il contenuto e il bordo destro
+        textAlign: "left", // Allinea il testo a sinistra
     },
     title: {
-        fontSize: "1.6rem",
-        margin: "0 0 10px 0",
-        color: "#222",
+        fontSize: "1.5rem",
+        margin: "5px 0",
+        color: "#fff",
+        order: -1, // Posiziona il titolo sopra
     },
     description: {
-        fontSize: "1rem",
-        color: "#444",
-        lineHeight: "1.5",
-        flexGrow: 1,
-        marginBottom: "15px",
+        fontSize: "0.9rem",
+        color: "#ddd",
+        lineHeight: "1.4",
+        marginBottom: "10px",
     },
     link: {
         textDecoration: "none",
         color: "#007bff",
         fontWeight: "bold",
         fontSize: "1rem",
-        alignSelf: "flex-start",
     },
 };
 
