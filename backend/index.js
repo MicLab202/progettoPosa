@@ -13,16 +13,13 @@ const app = express();
 // Funzione di connessione al database
 const connectDB = async () => {
     try {
-        // Usa l'URL del database dal file .env
-       
-        await mongoose.connect('mongodb+srv://mikelelabar:ferrara@cluster0.94sr5.mongodb.net/Database_foto', {
+        await mongoose.connect(process.env.MONGODB_URI || 'mongodb+srv://mikelelabar:ferrara@cluster0.94sr5.mongodb.net/Database_foto', {
             useNewUrlParser: true,
             useUnifiedTopology: true,
         });
-        console.log("Connessione a Mongo riuscita");
-
+        console.log("Connessione a MongoDB riuscita");
     } catch (error) {
-        console.log("Connessione con Mongo non riuscita", error);
+        console.log("Connessione con MongoDB non riuscita", error);
         process.exit(1);
     }
 }
