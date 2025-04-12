@@ -92,7 +92,6 @@ const deletePost = async (req,res) => {
 }
 
 
-// tecnicamente, facendo così un utente puo mettere tanti like, bisogna trovare un modo per evitarlo
 const likePost = async (req,res) => {
     const {id} = req.params
     const userId = req.user.id
@@ -124,6 +123,7 @@ const removeLike = async (post, userId, res) => {
     try {
     post.likes -=1 ;
     post.likedBy = post.likedBy.filter(user => user.toString() !== userId);
+    await post.save()
     } catch (e) {
         return res.status(500).json({msg:"Error deleting Like", error: e})
     }
@@ -131,7 +131,6 @@ const removeLike = async (post, userId, res) => {
 }
 
 
-// stesso problema dei like
 const dislikePost = async (req,res) => {
     const {id} = req.params
     const userId = req.user.id
@@ -162,6 +161,7 @@ const removeDislike = async (post, userId, res) => {
     try {
         post.dislikes -=1;
         post.dislikedBy = post.dislikedBy.filter(user => user.toString() !== userId);
+        await post.save()
     } catch (e) {
             return res.status(500).json({msg:"Error deleting Dislike", error: e});
     }
