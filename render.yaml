@@ -1,0 +1,26 @@
+services:
+  - type: web
+    name: backend
+    env: node
+    plan: free
+    buildCommand: docker build -t backend ./backend
+    startCommand: docker run -p 3001:3001 backend
+    envVars:
+      - key: NODE_ENV
+        value: production
+      - key: MONGODB_URI
+        value: mongodb+srv://mikelelabar:ferrara@cluster0.94sr5.mongodb.net/Database_foto
+    dockerfilePath: ./backend/Dockerfile
+    autoDeploy: true
+
+  - type: web
+    name: frontend
+    env: static
+    buildCommand: docker build -t client ./frontend
+    startCommand: docker run -p 80:80 client
+    dockerfilePath: ./frontend/Dockerfile
+    autoDeploy: true
+    routes:
+      - type: rewrite
+        source: /*
+        destination: /index.html
