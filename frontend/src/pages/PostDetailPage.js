@@ -27,6 +27,20 @@ const PostDetailPage = () => {
     }, [id, reloadUser]);
 
     if (loading) return <div>Caricamento...</div>;
+    
+    /*const handleLike = async () => {
+        await API.patch(`/post/${id}/like`).then((response) => {
+            setPost(response.data);
+        
+        });
+    };
+    
+    const handleDislike = async () => {
+        await API.patch(`/post/${id}/dislike`).then((response) => {
+        setPost(response.data);
+    
+        })
+    }*/
 
     const handleLike = async () => {
         const response = await API.patch(`/post/${id}/like`);
