@@ -4,4 +4,5 @@
 cd frontend && npm start
 
 # Avvia il backend (Node.js)
-cd backend && npm run dev
+cd backend && npm start
+wait
